@@ -1,0 +1,60 @@
+header:
+  version: 20
+
+distro: nodistro
+target:
+  - secure-core-image
+
+repos:
+  bitbake:
+    url: "https://git.openembedded.org/bitbake"
+    branch: "2.18"
+    signed: false
+    layers:
+      .: disabled
+
+  openembedded-core:
+    url: "https://git.openembedded.org/openembedded-core"
+    branch: wrynose
+    signed: false
+    layers:
+      meta:
+      meta-selftest:
+
+  meta-openembedded:
+    url: "https://git.openembedded.org/meta-openembedded"
+    branch: wrynose
+    signed: false
+    layers:
+      meta-oe:
+      meta-perl:
+
+  meta-secure-core:
+    url: "https://github.com/Wind-River/meta-secure-core.git"
+    branch: wrynose
+    signed: false
+    layers:
+      meta-efi-secure-boot:
+      meta-secure-core-common:
+      meta-signing-key:
+
+local_conf_header:
+  uefi-secure-boot: |
+    DISTRO_FEATURES:append = " efi-secure-boot modsign"
+    DISTRO_FEATURES:remove = "efi"
+    EFI_PROVIDER = "grub-efi"
+    MACHINE_FEATURES_NATIVE:append = " efi"
+    MACHINE_FEATURES:append = " efi"
+    GRUB_SIGN_VERIFY = "1"
+    INITRAMFS_IMAGE = "secure-core-image-initramfs"
+    PACKAGE_CLASSES = "package_rpm"
+    IMAGE_INSTALL:append = " kernel-image-bzimage"
+    UEFI_SB = "1"
+    UEFI_SELOADER = "0"
+
+  qemu-fixups: |
+    IMAGE_INSTALL:append = " ovmf-shell-efi"
+    IMAGE_FSTYPES += " wic"
+    QB_DEFAULT_FSTYPE = "wic"
+
+

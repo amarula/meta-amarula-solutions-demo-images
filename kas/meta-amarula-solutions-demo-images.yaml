@@ -1,0 +1,45 @@
+header:
+  version: 20
+
+distro: demoimages
+target:
+  - secureboot-demo-image
+
+repos:
+  bitbake:
+    url: "https://git.openembedded.org/bitbake"
+    branch: "2.18"
+    signed: false
+    layers:
+      .: disabled
+
+  openembedded-core:
+    url: "https://git.openembedded.org/openembedded-core"
+    branch: wrynose
+    signed: false
+    layers:
+      meta:
+      meta-selftest:
+
+  meta-openembedded:
+    url: "https://git.openembedded.org/meta-openembedded"
+    branch: wrynose
+    signed: false
+    layers:
+      meta-oe:
+      meta-perl:
+
+  meta-secure-core:
+    url: "https://github.com/Wind-River/meta-secure-core.git"
+    branch: wrynose
+    signed: false
+    layers:
+      meta-efi-secure-boot:
+      meta-secure-core-common:
+      meta-signing-key:
+
+  meta-amarula-solutions-demo-images:
+    path: "./"
+    layers:
+      meta-amarula-solutions-demo-images:
+      meta-amarula-solutions-demo-images/meta-demoimages:

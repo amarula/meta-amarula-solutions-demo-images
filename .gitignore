@@ -1,0 +1,7 @@
+bitbake
+build
+meta-*
+!meta-amarula-solutions-demo-images
+openembedded-core
+.kas_gnupg
+.kas_shell_history
